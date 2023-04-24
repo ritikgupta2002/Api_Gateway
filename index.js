@@ -19,30 +19,30 @@ app.use(morgan("combined"));
 //we have use morgan in combined mode here .
 app.use(limiter);
 
-// app.use("/", async (req, res, next) => {
-//   try {
-//     const response = await axios.get(
-//       "http://localhost:3001/api/v1/isAuthenticated",
-//       {
-//         headers: {
-//           "x-access-token": req.headers["x-access-token"],
-//         },
-//       }
-//     );
-//     console.log(response.data);
-//     if (response.data.success) {
-//       next();
-//     } else {
-//       res.status(401).json({
-//         message: "Unauthorised",
-//       });
-//     }
-//   } catch (error) {
-//     return  res.status(401).json({
-//       message: "Unauthorised",
-//     });
-//   }
-// });
+app.use("/", async (req, res, next) => {
+  try {
+    const response = await axios.get(
+      "http://localhost:3001/api/v1/isAuthenticated",
+      {
+        headers: {
+          "x-access-token": req.headers["x-access-token"],
+        },
+      }
+    );
+    console.log(response.data);
+    if (response.data.success) {
+      next();
+    } else {
+      res.status(401).json({
+        message: "Unauthorised",
+      });
+    }
+  } catch (error) {
+    return  res.status(401).json({
+      message: "Unauthorised",
+    });
+  }
+});
 
 app.use(
   "/bookingservice",
