@@ -1,23 +1,23 @@
 const express = require("express");
 const morgan = require("morgan");
 const { createProxyMiddleware } = require("http-proxy-middleware");
-// const rateLimit = require("express-rate-limit");
+const rateLimit = require("express-rate-limit");
 const axios = require("axios");
 
 const app = express();
 
 const PORT = 3005;
 
-// const limiter = rateLimit({
-//   windowMs: 2 * 60 * 1000,
-//   max: 5,
-// });
-//it means from a particular ip address nobody will be able to make more then 5 requests in 2 mins.
+const limiter = rateLimit({
+  windowMs: 2 * 60 * 1000,
+  max: 5,
+});
+// it means from a particular ip address nobody will be able to make more then 5 requests in 2 mins.
 
 app.use(morgan("combined"));
 //morgan is a middleware help us in logging affectively.
 //we have use morgan in combined mode here .
-// app.use(limiter);
+app.use(limiter);
 
 // app.use("/", async (req, res, next) => {
 //   try {
